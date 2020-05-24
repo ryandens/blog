@@ -1,2 +1,9 @@
 # Ignore the output of the Hugo CLI. This should not be checked in.
 site/public/
+
+## Terraform files
+**/.terraform/*
+
+
+## Intellij
+.idea/
