@@ -3,7 +3,8 @@ site/public/
 
 ## Terraform files
 **/.terraform/*
-
+*.tfstate
+*.tfstate.*
 
 ## Intellij
 .idea/
