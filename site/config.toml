@@ -120,3 +120,17 @@ copyright = ""
     anonymizeIP = true      # 12.214.31.144 -> 12.214.31.0
   [privacy.youtube]
     privacyEnhanced = true
+
+
+[deployment]
+# By default, files are uploaded in an arbitrary order.
+# Files that match the regular expressions in the "Order" list
+# will be uploaded first, in the listed order.
+order = [".jpg$", ".gif$"]
+
+
+[[deployment.targets]]
+# An arbitrary name for this target.
+name = "blogdeployment"
+URL = "s3://www.ryandens.com?region=us-east-1"
+cloudFrontDistributionID = "E2JLBYVD7C53LO"
