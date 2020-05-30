@@ -1,7 +1,7 @@
 # Ryan's blog
-I use [Hugo](https://gohugo.io/) to build the static content for my blog. In addition, it hosts the Terraform responsible for provisioning the S3 Bucket, Route53 record, SSL certificate, and CloudFront distribution responsible for serving the static content on [ryandens.com](https://ryandens.com). Simple scripts located in [ci/](./ci/) are responsible for uploading new content to the S3 bucket and invalidating cached files on CloudFront. 
+I use [Hugo](https://gohugo.io/) to build the static content for my blog. In addition, it hosts the Terraform responsible for provisioning the S3 Bucket, Route53 record, SSL certificate, and CloudFront distribution responsible for serving the static content on [ryandens.com](https://www.ryandens.com).
 
-## Local development setup
+## 👷 Local development setup
 
 First, follow the [Hugo install instructions](https://gohugo.io/getting-started/installing/). I downloaded their latest Debian package and installed using the command
 
@@ -21,7 +21,7 @@ $ hugo server -D
 ```
 
 
-## Deploying 
+## 🚀 Deploying infrastructure
 First, install the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html) and [Terraform](https://learn.hashicorp.com/terraform/getting-started/install.html).
 Make sure you've configured your environment to pickup your AWS credentials. 
 
@@ -40,3 +40,9 @@ $ cd prod && terraform apply
 ```
 
 When prompted accept the terraform plan to deploy to production.
+
+## 🚀 Deploying new content
+To update content in the S3 bucket, we use hugo's built in functionality. Syncing content with an S3 bucket is dead simple with the AWS CLI, but Hugo makes invalidating the CloudFront cache for the changed files trivial. 
+```bash
+$ cd site && hugo && hugo deploy --maxDeletes -1 --invalidateCDN
+```
