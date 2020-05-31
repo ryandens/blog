@@ -1,10 +1,9 @@
 ---
-title: "👋 First blog post"
+title: "✔️ How to Adopt Consumer-Driven Contracts Tests"
 date: 2020-05-31T10:43:00-04:00
 draft: true
 ---
 
-# How to Adopt Consumer-Driven Contracts Tests
 
 Testing web APIs is hard. As an industry, we've tackled this in many different ways - ranging from testing nothing at all to every aspect of both the client and the server code in one fell swoop.  One way to test web APIs in a way that minimizes non-deterministic test failures, gives developers confidence that their systems are working, and empowers teams to solve the problems in the systems they own is using consumer-driven contract tests. I'll show you how to identify if contract tests are for you and if so, how to start using them at work.
 
