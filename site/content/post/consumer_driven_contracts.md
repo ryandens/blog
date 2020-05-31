@@ -16,7 +16,7 @@ This article will (hopefully) be interesting to you if you're currently maintain
 
 Nearly every approach to testing has its place. The answer to every question of the form, "Should I use \<A> or \<B>?" is "It depends". There is a wealth of counterexamples to any technical approach as to why it shouldn't be done. However, I'll call out a few challenges I identified in the situation I encountered. 
 
-The biggest red flag with a large integration testing system is if that system has regular non-deterministic failures that are hard to diagnose and most frequently false positives. The origin of these irregularities might be from the System(s) Under Test (S.U.T.), from the system designed to test them, or both. 
+The biggest red flag with a large integration testing system is if that system has regular non-deterministic failures that are hard to diagnose and most frequently false positives. The origin of these irregularities might be from the system(s) under test, from the system designed to test them, or both. 
 
 Another red flag is that significant bugs that should or would have been caught by the system are still making it to production. Either there is "insufficient" test coverage or the testing is happening at the wrong place and time. The idea of insufficient test coverage may sound laughable to you - after all, this system already tests so much! The reality is that many of these testing systems spend a lot of time and energy testing code that has already been tested in more direct and easier to debug ways. There are often large swaths of code that remains unexercised or underutilized, some of which may be prohibitively challenging to test directly. 
 
