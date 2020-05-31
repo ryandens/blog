@@ -1,5 +1,5 @@
 ---
-title: "✔️ How to Adopt Consumer-Driven Contracts Tests"
+title: "✔️ How to Adopt Consumer-Driven Contract Tests"
 date: 2020-05-31T10:43:00-04:00
 draft: true
 ---
