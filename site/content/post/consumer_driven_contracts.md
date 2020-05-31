@@ -46,6 +46,8 @@ I think its easiest to pick an existing API to try this out with, as you likely 
 
 ### API Provider
 ```java
+package com.github.ryandens.provider;
+
 import com.github.ryandens.provider.messages.CoffeeOrder;
 import com.github.ryandens.provider.messages.Receipt;
 import javax.ws.rs.Consumes;
@@ -80,6 +82,8 @@ public final class CoffeeService {
 
 
 ```java
+
+package com.github.ryandens.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.ryandens.consumer.messages.CoffeeOrder;
@@ -136,18 +140,30 @@ This might require you to refactor your code slightly, but generally speaking, t
 
 
 ```java
+package com.github.ryandens.consumer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import au.com.dius.pact.consumer.MockServer;
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody;
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider;
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import com.github.ryandens.consumer.messages.CoffeeOrder;
+import com.github.ryandens.consumer.messages.Receipt;
+import java.io.IOException;
+import java.util.Collections;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "CoffeeService")
 final class CoffeeClientPactTest {
 
-    @Pact(consumer = "CoffeeClient")
+  @Pact(consumer = "CoffeeClient")
   RequestResponsePact sendCoffeeOrder(final PactDslWithProvider builder) {
     return builder
         .uponReceiving("Send a Coffee Order")
@@ -167,7 +183,6 @@ final class CoffeeClientPactTest {
         .status(200)
         .toPact();
   }
-
 
   @Test
   @PactTestFor(pactMethod = "sendCoffeeOrder")
@@ -195,6 +210,8 @@ Our test passing in step 5 gives us no confidence that our client and consumer w
 There are a few different tools available for this, but I find that the JUnit extension is most flexible without requiring you to do any additional scripting to make sure resources are configured correctly
 
 ```java
+package com.github.ryandens.provider;
+
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.loader.PactFolder;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
@@ -205,7 +222,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @Provider("CoffeeService")
 @PactFolder("../consumer/build/pacts/")
-final class ContrastVerificationTest {
+final class ContractVerificationTest {
 
   @BeforeAll
   static void beforeAll() {
