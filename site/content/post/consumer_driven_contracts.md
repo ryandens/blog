@@ -1,6 +1,9 @@
 ---
 title: "✔️ How to Adopt Consumer-Driven Contract Tests"
 date: 2020-05-31T10:43:00-04:00
+tags: ["testing", "pact", "API", "REST", "quality", "client", "server"]
+categories: ["Testing"]
+author: "Ryan Dens"
 draft: true
 ---
 
