@@ -265,4 +265,4 @@ authentication, and webhooks, which can help reduce any friction in your adoptio
  1. [Consumer-Driven Contracts: A Service Evolution Pattern](https://martinfowler.com/articles/consumerDrivenContracts.html) by Ian Robbinson. This goes into the specifics of why Pact and many other tools chosen to optimize for the "consumer-driven" experience
  1. [Pact Introduction](https://docs.pact.io/) terms you should be familiar with after reading this guide, but this is a great reference for friendly definitions of important concepts
  1. [Pact 5-minute guide](https://docs.pact.io/5-minute-getting-started-guide) a quick way to write and verify your first contract test, all from your browser!
- 1. [Effective Pact Setup guide aka Pact Nirvana](https://docs.pact.io/pact_nirvana). If you decide to introduce contracts, this guide will tell you how to do it right. Follow it, you won't regret it.
+ 1. [Effective Pact Setup guide aka Pact Nirvana](https://docs.pact.io/pact_nirvana). If you decide to introduce Pact as your tooling, this guide will tell you how to do it right. Follow it, you won't regret it.
