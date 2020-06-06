@@ -8,7 +8,7 @@ draft: true
 ---
 
 
-Testing web APIs is hard. As an industry, we've tackled this in many different ways - ranging from testing nothing at all to every aspect of both the client and the server code in one fell swoop.  One way to test web APIs in a way that minimizes non-deterministic test failures, gives developers confidence that their systems are working, and empowers teams to solve the problems in the systems they own is using consumer-driven contract tests. I'll show you how to identify if contract tests are for you and if so, how to start using them at work.
+Testing web APIs is hard. As an industry, we've tackled this in many different ways - ranging from testing nothing at all to every aspect of both the client and the server code in one fell swoop. Consumer-driven contract tests can minimize non-deterministic failures, give developers confidence that their systems are working, and empower teams to solve problems in the systems they own. I'll show you how to identify if contract tests are for you and if so, how to start using them at work.
 
 This article will (hopefully) be interesting to you if you're currently maintaining, extending, or building a system of integration tests between two services that communicate via messages (e.g. an HTTP request). The perspective I come at this from is primarily testing a REST API and the client code responsible for sending it HTTP requests.  Before reading this, you should understand the basics of HTTP and REST semantics.
 
