@@ -37,7 +37,7 @@ Consumer-driven contract tests allow us to test the code responsible for sending
 
 While this doesn't make any problems in the systems under test go away, it does make the origin more clear, easier to track down, and harder to ignore. If the source of the non-determinism is the consumer, you'll see inconsistent test failures when generating the contract, as part of the contract generation is making sure it stays the same. If the source of the non-determinism in the provider, you'll have a reproducible inconsistency with the captured message, whose contents are known. If the source of the non-determinism was introduced by the system designed to test your services, you'll likely see this non-determinism disappear, as you can rely on more mature tooling that is actively maintained by a team of experts with contributions from the community.
 
-With this strategy also comes other advantages, such a test coverage. The nature of test doubles allows you to inject failure into your system in a controlled fashion, giving you confidence your code can handle failure in production. By reducing the cost of adding a test which tests the compatibility of two remote services, developers will be more inclined to add them where necessary.
+With this strategy also comes other advantages, such a test coverage. The nature of test doubles allows you to inject failure into your system in a controlled fashion, giving you confidence your code can handle failure in production. By reducing the cost of adding a test that tests the compatibility of two remote services, developers will be more inclined to add them where necessary.
 
 
 ## Step 3. Pick a tool
