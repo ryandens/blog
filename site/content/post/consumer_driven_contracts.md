@@ -113,7 +113,7 @@ public final class Main {
       receipt =
           sendOrder(
               CoffeeOrder.of(CoffeeOrder.Size.LARGE, CoffeeOrder.Bean.CATURRA),
-              "http://ryandens.com");
+              "https://www.ryandens.com");
     } catch (InterruptedException | IOException e) {
       throw new RuntimeException(e);
     }
