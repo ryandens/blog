@@ -29,13 +29,15 @@ One of the most important challenges I was interested in solving was eliminating
 
 If the source of the non-determinism is in the system designed to test your services, then the easiest thing to do (may) be to use infrastructure that is maintained and actively used by others. This lets you and your team focus on the real problems facing you, not re-inventing the wheel with the world's one millionth testing system.
 
-If the source of the non-determinism is in the system(s) under test, then it is generally best to test the functionality of these two systems independently. This generally works out very well, because irregularities in testing behavior can be tracked down more quickly by the correct people. 
+If the source of the non-determinism is in the system(s) under test, then it is generally best to test the functionality of these two systems independently. Best practices typically call for introducing [a test double when dealing with non-determinism in remote services](https://martinfowler.com/articles/nonDeterminism.html#RemoteServices). This generally works out very well, because irregularities in testing behavior can be tracked down more quickly by the correct people. 
 
 However, this leaves us with a crucial gap: making sure the two systems work together. Making sure that these two services work properly together doesn't necessarily mean standing up both of these services and testing their behavior end to end at the same time.
 
-Consumer-driven contract tests allow us to test the code responsible for sending a message in one service (the consumer), capturing it, and verifying that it is correct. Later, we can replay that message to the other service (the provider) and make sure that it understands it. 
+Consumer-driven contract tests allow us to test the code responsible for sending a message in one service (the consumer), capturing it with the test double, and verifying that the message is correct. Later, we can replay that message to the other service (the provider) and make sure that it understands it and give us a similar response. 
 
-While this doesn't make any problems in the systems under test go away, it does make the origin more clear, easier to track down, and harder to ignore. If the source of the non-determinism is the consumer, you'll see inconsistent test failures when generating the contract, as part of the contract generation is making sure it stays the same. If the source of the non-determinism in the provider, you'll have a reproducible inconsistency with the captured message, whose contents are known.
+While this doesn't make any problems in the systems under test go away, it does make the origin more clear, easier to track down, and harder to ignore. If the source of the non-determinism is the consumer, you'll see inconsistent test failures when generating the contract, as part of the contract generation is making sure it stays the same. If the source of the non-determinism in the provider, you'll have a reproducible inconsistency with the captured message, whose contents are known. If the source of the non-determinism was introduced by the system designed to test your services, you'll likely see this non-determinism disappear, as you can rely on more mature tooling that is actively maintained by a team of experts with contributions from the community.
+
+With this strategy also comes other advantages, such a test coverage. The nature of test doubles allows you to inject failure into your system in a controlled fashion, giving you confidence your code can handle failure in production. By reducing the cost of adding a test which tests the compatibility of two remote services, developers will be more inclined to add them where necessary.
 
 
 ## Step 3. Pick a tool
