@@ -1,6 +1,6 @@
 ---
 title: "✔️ How to Adopt Consumer-Driven Contract Tests"
-date: 2020-05-31T10:43:00-04:00
+date: 2020-06-07T07:43:00-04:00
 tags: ["testing", "pact", "API", "REST", "quality", "client", "server"]
 categories: ["Testing"]
 author: "Ryan Dens"
@@ -10,7 +10,7 @@ draft: true
 
 Testing web APIs is hard. As an industry, we've tackled this in many different ways - ranging from testing nothing at all to every aspect of both the client and the server code in one fell swoop. Consumer-driven contract tests can minimize non-deterministic failures, give developers confidence that their systems are working, and empower teams to solve problems in the systems they own. I'll show you how to identify if contract tests are for you and if so, how to start using them at work.
 
-This article will (hopefully) be interesting to you if you're currently maintaining, extending, or building a system of integration tests between two services that communicate via messages (e.g. an HTTP request). The perspective I come at this from is primarily testing a REST API and the client code responsible for sending it HTTP requests.  Before reading this, you should understand the basics of HTTP and REST semantics.
+This article will (hopefully) be interesting to you if you're currently maintaining, extending, or building a system of integration tests between two services that communicate via messages (e.g. an HTTP request). The perspective I come at this from is primarily testing a REST API and the client code responsible for sending it HTTP requests.  Before reading this, you should understand the basics of HTTP.
 
 ## Step 1: Identify if there is a challenge with your current testing approach
 
