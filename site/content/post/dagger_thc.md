@@ -186,4 +186,116 @@ The API for accessing these services is now much cleaner. However, we're now res
 
 
 ## Building a typesafe heterogenous container with Dagger
-In order to guarantee that access to our container with a certain key will always correspond to a value of the same type,
+In order to guarantee that access to our container with a certain key will always correspond to a value of the same type, we must fordge an assocation between the key and the value that is guaranteed to exist by the compiler at service registration time. This is now pretty easy to do thanks to the `Record` feature currently in preview in JDK 14.
+
+```java
+package com.github.ryandens.dagger.thc;
+
+public record Registration<T>(Class<T> key, T value) {}
+```
+ 
+Now, we must change our dagger modules `ModuleA` and `ModuleB` to instead provide
+a `Registration` for both`ServiceA` and `ServiceB`. We can do this quite easily by using a different multibinding annotation, `@IntoSet`. Now these module classes look like this:
+
+```java
+package com.github.ryandens.dagger.thc.a;
+
+import com.github.ryandens.dagger.thc.Registration;
+import dagger.*;
+
+@Module
+public final class ModuleA {
+
+  @Provides
+  @IntoSet
+  static Registration<?> provideRegistration(final ServiceA serviceA) {
+    return new Registration<>(ServiceA.class, serviceA);
+  }
+}
+```
+
+```java
+package com.github.ryandens.dagger.thc.b;
+
+import com.github.ryandens.dagger.thc.Registration;
+import dagger.*;
+
+@Module
+public final class ModuleB {
+
+  @Provides
+  @IntoSet
+  static Registration<?> provideRegistration(final ServiceB serviceB) {
+    return new Registration<>(ServiceB.class, serviceB);
+  }
+}
+```
+
+Now, the Dagger object graph knows how to build a `Set<Registration<?>>`. We definitively know that for each `Registration` in the `Set`, the type of `Registration.value()` must match the type parameter of the `Class` returned by `Registration.key()`. This is powerful, because now we can reuse our `Container` implementation from before and populate it with service registrations using its typesafe API in a Dagger provider. I propose we add a `RootModule` class which is responsible for providing a `Container` instance populated with our services.
+
+```java
+package com.github.ryandens.dagger.thc;
+
+
+import com.github.ryandens.dagger.thc.a.ModuleA;
+import com.github.ryandens.dagger.thc.b.ModuleB;
+import dagger.Module;
+import dagger.Provides;
+import java.util.Set;
+
+@Module(includes = {ModuleA.class, ModuleB.class})
+public final class RootModule {
+  @Provides
+  static Container provide(final Set<Registration<?>> registrations) {
+    final var container = new Container();
+    registrations.forEach(container::put);
+    return container;
+  }
+}
+```
+
+Now, our `RootComponet` interface can discard its unsafe `Map<Class<?>, Object>` reference and instead provide a typesafe `Container` to its clients!
+
+```java
+package com.github.ryandens.dagger.thc;
+
+import dagger.Component;
+
+@Component(modules = {RootModule.class})
+public interface RootComponent {
+
+  Container container();
+}
+```
+
+Now, our `Main` class can take advantage of both Dagger's boilerplate reduction and our `Container`'s typesafety!
+
+```java
+package com.github.ryandens.dagger.thc;
+
+import com.github.ryandens.dagger.thc.a.ServiceA;
+import com.github.ryandens.dagger.thc.b.ServiceB;
+
+public final class Main {
+
+  public static void main(final String[] args) {
+    final var container = DaggerRootComponent.create().container();
+    final var serviceA = container.get(ServiceA.class);
+    System.out.println(serviceA.customServiceAMessage());
+    final ServiceB serviceB = container.get(ServiceB.class);
+    System.out.println(serviceB.customServiceBMessage());
+  }
+}
+```
+
+
+## Modularization benefits
+One of the strengths of using Dagger is its ability to help one modularize their codebase. We can add a new `ServiceC` class and we won't have to modify any of our existing code, we simply need to provide it into the `Set<Registration<?>>` using dagger. In addition, our `Container` is not at all tied to our Dagger usage and can be re-used outside of that content as well. Each of our modules is indepenent of one another and only need to maintain a small API for service registration. 
+
+
+## Takeaways 
+We can definitely do more with this as well, but I wanted to focus on the most basic way we can make Dagger and typesafe heterogenous containers integrate well together. The complete example code is on my GitHub at [ryandens/dagger-typesafe-heterogeneous-container](https://github.com/ryandens/dagger-typesafe-heterogeneous-container). This project also includes a more complex usage example where `ServiceA` and `ServiceB` share a common interface with different parameterized types used on the interface. I hope to examine this more in depth in a future blog post!
+
+Theoretically, we could create a custom `@IntoTypesafeHeterogenousContainer` Dagger multibinding by creating a [Dagger Service Provider Interface Plugin](https://dagger.dev/dev-guide/spi)(https://dagger.dev/dev-guide/spi) which could be published as a library and consumed alongside Dagger to natively integrate your modules with a `Container` declared on the component. Building this wouldn't be trivially, but is definitely somewhere on my to-do list 😀. 
+
+If you notice anything about my repository that could be more clear or better documented, please send me a pull request!
