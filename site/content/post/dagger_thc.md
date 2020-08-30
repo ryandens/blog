@@ -1,10 +1,10 @@
 ---
 title: "👷‍♀️ How to build a typesafe heterogeneous container with Dagger"
-date: 2020-08-10T07:39:55-04:00
+date: 2020-08-31T08:00:00-04:00
 tags: ["dagger", "effective-java", "api-design", "DI", "dependency-injection", "JSR-330", "Java"]
 categories: ["Architecture"]
 author: "Ryan Dens"
-draft: true
+draft: false
 ---
 
 
